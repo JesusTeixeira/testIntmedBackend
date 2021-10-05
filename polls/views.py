@@ -1,27 +1,28 @@
-from polls.models import Consultas
-from django.http.response import JsonResponse
-from polls.models import Especialidade, Medicos
-from django.shortcuts import HttpResponse
-
-
-def listespecialidade(request):
-    print(list(Especialidade.objects.all()))
-    liste_specialidade = list(Especialidade.objects.all().values())
-    
-    return JsonResponse({"especialidade": liste_specialidade})
+from rest_framework import views, viewsets
+from rest_framework import permissions
+from polls.serializers import MedicoSerializer, EspecialidadeSerializar, ConsultaSerializar
+from polls.models import Consulta, Especialidade, Medico
+from polls.permissions import IsOwnerOrReadOnly
 
 
 
-def listmedicos(request):
-    print(list(Medicos.objects.all()))
-    list_medicos = list(Medicos.objects.all().values())
+permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-    return JsonResponse({"medicos": list_medicos})
+class MedicoViewSet(viewsets.ModelViewSet):
+ 
+    queryset = Medico.objects.all()
+    serializer_class = MedicoSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
+class EspecialidadeViewSet(viewsets.ModelViewSet):
+    queryset = Especialidade.objects.all()
+    serializer_class = EspecialidadeSerializar
+    permission_classes = [permissions.IsAuthenticated]
 
-def listconsultas(request):
-    print(list(Consultas.objects.all()))
-    list_consultas = list(Consultas.objects.all().values())
 
-    return JsonResponse({"consultas": list_consultas})
+class ConsultaViewSet(viewsets.ModelViewSet):
+    queryset = Consulta.objects.all()
+    serializer_class = ConsultaSerializar
+    permission_classes = [permissions.IsAuthenticated]
+
