@@ -6,8 +6,8 @@ from polls import views
 from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'medicos', views.MedicoViewSet)
-router.register(r'especialidade', views.EspecialidadeViewSet)
-router.register(r'consulta', views.ConsultaViewSet)
+router.register(r'especialidades', views.EspecialidadeViewSet)
+router.register(r'consultas', views.ConsultaViewSet)
 
 
 urlpatterns = [
